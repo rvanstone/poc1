@@ -1,0 +1,23 @@
+<!--
+
+    THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
+    FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
+
+-->
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.xebialabs.com/deployit/synthetic" xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+  <type type="clearcase.Server" extends="generic.Container"/>
+
+  <type type="clearcase.DeployedCommands" deployable-type="clearcase.Commands" container-type="clearcase.Server" extends="udm.BaseDeployed">
+    <generate-deployable type="clearcase.Commands" extends="udm.BaseDeployable" />
+	<property name="commands" hidden="false" description=" commands to execute" size="large"/>    
+  </type>
+
+  <type type="clearcase.DeployedMklabel" deployable-type="clearcase.Mklabel" container-type="clearcase.Server" extends="udm.BaseDeployed">
+    <generate-deployable type="clearcase.Mklabel" extends="udm.BaseDeployable" />
+        <property name="" hidden="false" description=" commands to execute" size="large"/>
+  </type>
+
+</synthetic>
