@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.xebialabs.com/deployit/synthetic" xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+    <!-- SQL Scripts -->
+    <type type="sql.SqlScripts" extends="generic.Folder" description="ZIP file containing SQL scripts">
+        <property name="username" required="false" description="`The username to connect to the database" />
+        <property name="password" required="false" password="true" description="The password to connect to the database" />
+        <property name="additionalOptions" required="false" size="medium" description="Specify additional options to be passed to the command-line SQL client" />
+    </type>
+
+    <type type="sql.ExecutedSqlScripts" extends="generic.ExecutedFolder" deployable-type="sql.SqlScripts" container-type="sql.SqlClient" description="SQL scripts executed on an SQL client">
+        <property name="createVerb" hidden="true" default="Run" />
+        <property name="destroyVerb" hidden="true" default="Rollback" />
+        <property name="executorScript" hidden="true" default="${deployed.container.clientWrapperScript}" />
+        <property name="scriptRecognitionRegex" hidden="true" default="(?!.*-rollback\.sql)([0-9]*-.*)\.sql" />
+        <property name="rollbackScriptRecognitionRegex" hidden="true" default="([0-9]*-.*-rollback)\.sql" />
+        <property name="rollbackScriptPostfix" hidden="true" default="-rollback.sql" />
+
+        <property name="username" required="false" description="If set, the user name to use. Falls back to the optional default user name set on the sql.SqlClient container" />
+        <property name="password" required="false" password="true" description="If set, the password to use. Falls back to the optional default password set on the sql.SqlClient container" />
+        <property name="additionalOptions" required="false" size="medium" description="Specify additional options to be passed to the command-line SQL client" />
+    </type>
+
+    <!-- SQL Containers -->
+    <type type="sql.SqlClient" extends="generic.Container" description="Generic SQL client" virtual="true">
+        <property name="clientWrapperScript" required="false" description="The OS-specific wrapper script that calls the SQL client" />
+
+        <property name="username" required="false" description="If set, the user name to use if none is set on the deployed sql.ExecutedSqlScripts" />
+        <property name="password" required="false" password="true" description="If set, the password to use if none is set on the deployed sql.ExecutedSqlScripts" />
+        <property name="additionalOptions" required="false" size="medium" description="Specify additional options to be passed to the command-line SQL client" />
+    </type>
+
+    <type type="sql.OracleClient" extends="sql.SqlClient" description="Oracle SQL*Plus client">
+        <property name="clientWrapperScript" hidden="true" default="sql/OracleClient" />
+
+        <property name="oraHome" description="The directory that contains the Oracle installation" />
+        <property name="sid" description="The Oracle SID to connect to" />
+    </type>
+
+    <type type="sql.SybaseClient" extends="sql.SqlClient" description="Sybase DBISQL client">
+        <property name="clientWrapperScript" hidden="true" default="sql/SybaseClient" />
+
+        <property name="sybHome" description="The directory that contains the DBISQL installation" />
+        <property name="dbName" description="The Sybase DB to connect to" />
+        <property name="address" description="The database IP address" default="localhost" />
+        <property name="port" description="The TCPIP Port to connect to" />
+    </type>
+
+    <type type="sql.MsSqlClient" extends="sql.SqlClient" description="Microsoft SQL Server client">
+        <property name="clientWrapperScript" hidden="true" default="sql/MsSqlClient" />
+
+        <property name="serverName" description="The name of the MS SQL Server to connect to" />
+        <property name="databaseName" required="false" description="The name of the MS SQL database to connect to" />
+    </type>
+
+    <type type="sql.MySqlClient" extends="sql.SqlClient" description="MySQL client">
+        <property name="clientWrapperScript" hidden="true" default="sql/MySqlClient" />
+
+        <property name="mySqlHome" description="The directory that contains the MySQL installation" />
+        <property name="databaseName" description="The name of the MySQL database to connect to" />
+    </type>
+
+    <type type="sql.Db2Client" extends="sql.SqlClient" description="IBM DB2 client">
+        <property name="clientWrapperScript" hidden="true" default="sql/Db2Client" />
+
+        <property name="db2Home" description="The directory that contains the DB2 installation" />
+        <property name="databaseName" description="The name of the DB2 database to connect to" />
+    </type>
+
+    <type type="sql.PostgreSqlClient" extends="sql.SqlClient" description="PostqreSQL Server client">
+        <property name="clientWrapperScript" hidden="true" default="sql/PostgreSqlClient" />
+
+        <property name="postgreSqlHome" description="The directory that contains the PostgreSQL installation" />
+        <property name="port" default="5432" description="The port of the PostgreSQL server to connect to" />
+        <property name="databaseName" description="The name of the PostgreSQL database to connect to" />
+
+        <!-- advanced properties -->
+        <property name="useLocalhost" default="true" kind="boolean" category="Advanced" description="Use localhost as the hostname to connect to" />
+
+        <!-- methods -->
+        <method name="testConnection" label="Test connection" script="sql/PostgreSqlClient" delegate="shellScript" description="Test connection to PostgreSQL database server">
+          <parameters>
+            <parameter name="testSqlStatement" kind="string" default="SELECT 1;" required="true" description="SQL statement to test the connection to the PostgreSQL server" />
+          </parameters>
+        </method>
+    </type>
+
+</synthetic>

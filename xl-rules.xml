@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<rules xmlns="http://www.xebialabs.com/xl-deploy/xl-rules">
+    <disable-rule name="sql.ExecutedSqlScripts.executeCreate_CREATE" />
+    <disable-rule name="sql.ExecutedSqlScripts.executeDestroy_DESTROY" />
+    <disable-rule name="sql.ExecutedSqlScripts.executeModify_MODIFY" />
+    
+    <rule name="rules_sql.ExecutedSqlScripts.CREATE" scope="deployed">
+        <conditions>
+            <type>sql.ExecutedSqlScripts</type>
+            <operation>CREATE</operation>
+        </conditions>
+        <planning-script-path>rules/sql_create.py</planning-script-path>
+    </rule>
+
+    <rule name="rules_sql.ExecutedSqlScripts.DESTROY" scope="deployed">
+        <conditions>
+            <type>sql.ExecutedSqlScripts</type>
+            <operation>DESTROY</operation>
+        </conditions>
+        <planning-script-path>rules/sql_destroy.py</planning-script-path>
+    </rule>
+
+    <rule name="rules_sql.ExecutedSqlScripts.MODIFY" scope="deployed">
+        <conditions>
+            <type>sql.ExecutedSqlScripts</type>
+            <operation>MODIFY</operation>
+        </conditions>
+        <planning-script-path>rules/sql_modify.py</planning-script-path>
+    </rule>
+</rules>
